@@ -572,8 +572,8 @@ class LogBar(QtWidgets.QWidget):
 
     def show_viewer(self) -> None:
         if self._viewer is None:
-            self._viewer = LogViewer(self._cache, parent=self)
-            self._viewer.setWindowFlag(QtCore.Qt.WindowType.Dialog)
+            self._viewer = LogViewer(self._cache)
+            self._viewer.setParent(self, QtCore.Qt.WindowType.Dialog)
             self._viewer.resize(QtCore.QSize(720, 480))
         self._viewer.show()
 
