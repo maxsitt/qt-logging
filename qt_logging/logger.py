@@ -57,8 +57,8 @@ def get_colors() -> Colors:
 
 
 class LogCache(QtCore.QObject):
-    added: QtCore.Signal = QtCore.Signal(logging.LogRecord)
-    cleared: QtCore.Signal = QtCore.Signal()
+    added = QtCore.Signal(logging.LogRecord)
+    cleared = QtCore.Signal()
 
     def __init__(self, parent: QtCore.QObject | None = None) -> None:
         super().__init__(parent)
