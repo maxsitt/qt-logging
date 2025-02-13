@@ -1,3 +1,3 @@
 from .logger import LogCache, LogBar, LogViewer, SUCCESS
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
