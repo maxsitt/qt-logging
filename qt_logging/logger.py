@@ -522,12 +522,6 @@ class LogBar(QtWidgets.QWidget):
             QtCore.Qt.AlignmentFlag.AlignBottom | QtCore.Qt.AlignmentFlag.AlignRight,
         )
 
-    def add_widget(self, widget: QtWidgets.QWidget) -> None:
-        self._layout.insertWidget(self._layout.count() - 1, widget)
-
-    def remove_widget(self, widget: QtWidgets.QWidget) -> None:
-        self._layout.removeWidget(widget)
-
     def cache(self) -> LogCache | None:
         return self._cache
 
@@ -535,9 +529,6 @@ class LogBar(QtWidgets.QWidget):
         self._cache = cache
         self._cache.added.connect(self._show_record)
         self._cache.cleared.connect(self.clear_message)
-
-    def clear_message(self) -> None:
-        self.show_message('', level=logging.NOTSET, force=True)
 
     def show_message(
         self, message: str, level: int = logging.INFO, force=False
@@ -570,6 +561,12 @@ class LogBar(QtWidgets.QWidget):
 
         self.current_message = logging.makeLogRecord({'msg': message, 'levelno': level})
 
+    def clear_message(self) -> None:
+        self.show_message('', level=logging.NOTSET, force=True)
+
+    def viewer(self) -> LogViewer | None:
+        return self._viewer
+
     def show_viewer(self) -> None:
         if self._viewer is None:
             self._viewer = LogViewer(self._cache)
@@ -577,8 +574,11 @@ class LogBar(QtWidgets.QWidget):
             self._viewer.resize(QtCore.QSize(720, 480))
         self._viewer.show()
 
-    def viewer(self) -> LogViewer | None:
-        return self._viewer
+    def add_widget(self, widget: QtWidgets.QWidget) -> None:
+        self._layout.insertWidget(self._layout.count() - 1, widget)
+
+    def remove_widget(self, widget: QtWidgets.QWidget) -> None:
+        self._layout.removeWidget(widget)
 
     def _show_record(self, record: logging.LogRecord) -> None:
         if record is None:
